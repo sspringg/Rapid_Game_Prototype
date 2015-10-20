@@ -47,6 +47,9 @@
   <ItemGroup>
      <Compile Include="Assets\_Scripts\Camera_Script.cs" />
      <Compile Include="Assets\_Scripts\Monkey.cs" />
+     <Compile Include="Assets\_Scripts\TileManager.cs" />
+     <Compile Include="Assets\_Scripts\TileScript.cs" />
+     <Compile Include="Assets\_Scripts\treeBranch.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

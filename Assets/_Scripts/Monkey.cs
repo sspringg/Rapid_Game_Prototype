@@ -2,83 +2,54 @@
 using System.Collections;
 using System;
 public class Monkey : MonoBehaviour {
-	Vector3 oldVelocity, acceleration, testPosition, leftHand, diffVec = new Vector3(); 
+	Vector3 testPosition, pivot, diffVec = new Vector3(); 
 	public Rigidbody rb;
-	public bool initiate = false;
 	public float tetherLength = 10;
-	private double dist;
+	private double dist; 
 	public HingeJoint anchor;
+	private float rotationSpeed = 5;
+	private bool pivotSet = false;
 	// Use this for initialization
 	void Start () {
-//		acceleration = new Vector3(0f,-.1f,0f);
-//		leftHand = new Vector3(3,30,17);
-//		rb = GetComponent<Rigidbody>();
+		rb = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		/** On left Click **/
+	void FixedUpdate () {
 		if(Input.GetKey("up")){
-			//move the anchor to the correct position
-			anchor.transform.position = new Vector3 (3, 30, 17);
-			//zero out any rotation
-			anchor.transform.rotation = Quaternion.identity;
-			
-			//Create HingeJoints
-			joint = gameObject.AddComponent<HingeJoint> ();
-			joint.axis = Vector3.back; /// (0,0,-1)
-			joint.anchor = Vector3.zero;
-			joint.connectedBody = anchor.rigidbody;
-			anchorJoint = anchor.AddComponent<HingeJoint> ();
-			anchorJoint.axis = Vector3.back; /// (0,0,-1)
-			anchorJoint.anchor = Vector3.zero;
+			rotationSpeed = 5;	
+			if(pivotSet == false){
+				pivot = new Vector3(transform.position.x, transform.position.y, transform.position.z + 2);
+				pivotSet = true;
+			}
+			rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
+				testPosition = transform.position + rb.velocity;
+				if (Vector3.Distance(testPosition,pivot) > tetherLength){   //hand == pivot point t
+					//pull monkey back to the edge of the his arm
+					diffVec = (testPosition - pivot);
+					dist = Math.Sqrt((diffVec.x * diffVec.x) + (diffVec.y * diffVec.y) + (diffVec.z * diffVec.z));
+					testPosition = pivot + (diffVec / (float)dist) * tetherLength;	//normalize the position
+					
+					float speed = rb.velocity.magnitude;
+					rb.velocity = (testPosition - transform.position);
+					if(speed > rb.velocity.magnitude)
+						rb.velocity *= (speed / rb.velocity.magnitude);
+					transform.position = testPosition;
+				}
+			}
+		else if (Input.GetKeyUp("up")){
+			pivotSet = false;
 		}
-		
-		//Now just add Force!
-		
-		/** On left Click release **/
-		
-		else if(Input.GetKey("down")){
-			Destroy (joint);
-			Destroy (anchorJoint);
+		else{
+			if(Input.GetKey(KeyCode.A) && rotationSpeed < 10)
+				rotationSpeed += .5f;
+			else if(Input.GetKey(KeyCode.S) && rotationSpeed > .5f){
+				rotationSpeed -= .5f;
+			}
+			transform.Rotate(Vector3.up * rotationSpeed);
 		}
 	}
-
 }
-
-	
-//	//		print("trans before: " + transform.position);
-//	testPosition = transform.position + (rb.velocity * Time.deltaTime * 10);
-//	//test to see if distance between possible position and pivot point is greater than our max distance
-//	//		print(Vector3.Distance(testPosition,leftHand) > tetherLength);
-//	print("trans pos " + transform.position + "  dist: " + Vector3.Distance(testPosition,leftHand));
-//	if (Vector3.Distance(testPosition,leftHand) > tetherLength)   //hand == pivot point t
-//	{
-//		if(initiate == false){
-//			print("first vel: " + rb.velocity.magnitude);
-//			initiate = true;
-//		}
-//		//pull monkey back to the edge of the his arm
-//		//			print("test: " + testPosition + "   tran: " + transform.position);	
-//		diffVec = (testPosition - leftHand);
-//		//			print("diff vEC " + diffVec);
-//		dist = Math.Sqrt((diffVec.x * diffVec.x) + (diffVec.y * diffVec.y) + (diffVec.z * diffVec.z));
-//		testPosition = leftHand + (diffVec / (float)dist) * tetherLength;	//normalize the position
-//		//			print("test: " + testPosition + "   tran: " + transform.position);
-//		print("normalized: " + (diffVec / (float)dist) * tetherLength);
-//		
-//		float speed = rb.velocity.magnitude;
-//		print("before Vel: " + rb.velocity);
-//		rb.velocity = (testPosition - leftHand);
-//		print("after Vel" + rb.velocity);
-//		
-//		//				rb.velocity = rb.velocity * speed;
-//		transform.position = testPosition;
-//		print("new trans: " + transform.position);
-//	}
-//	print("vel: " + rb.velocity.magnitude);
-//}
-
 
 //		if(initiate == false){
 //			rb.velocity = new Vector3(0,0,10);
