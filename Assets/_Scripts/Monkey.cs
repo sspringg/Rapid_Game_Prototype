@@ -9,14 +9,39 @@ public class Monkey : MonoBehaviour {
 	public HingeJoint anchor;
 	private float rotationSpeed = 5;
 	private bool pivotSet = false;
+	RaycastHit hitInfo;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
+		rb.AddForce(Vector3.forward * 10);
+		rb.AddForce(Vector3.up * 10);
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if(Input.GetKey("up")){
+		if(Physics.Raycast(gameObject.transform.position, Vector3.left, out hitInfo, 1f, GetLayerMask(new string[] {"Floor"}))){
+			print("right");
+			TileManager.S.currentTile = hitInfo.collider.gameObject;
+			TileManager.S.curSide = side.right;
+		}
+		else if(Physics.Raycast(gameObject.transform.position, Vector3.forward, out hitInfo, 1f, GetLayerMask(new string[] {"Floor"}))){
+			print("top");
+			TileManager.S.currentTile = hitInfo.collider.gameObject;
+			TileManager.S.curSide = side.top;
+		}
+		else if(Physics.Raycast(gameObject.transform.position, Vector3.right, out hitInfo, 1f, GetLayerMask(new string[] {"Floor"}))){
+			print("left");
+			TileManager.S.currentTile = hitInfo.collider.gameObject;
+			TileManager.S.curSide = side.left;
+		}
+//		if(Input.GetKey("left"))
+//			transform.position += Vector3.left;
+//		else if(Input.GetKey("right"))
+//			transform.position += Vector3.right;
+//		transform.position += Vector3.forward;
+		else if(Physics.Raycast(gameObject.transform.position, out hitInfo, 1f, GetLayerMask(new string[] {"treeBranch"})) 
+		        && Input.GetMouseButtonDown(0)){
+		        print("wooo");
 			rotationSpeed = 5;	
 			if(pivotSet == false){
 				pivot = new Vector3(transform.position.x, transform.position.y, transform.position.z + 2);
@@ -49,13 +74,28 @@ public class Monkey : MonoBehaviour {
 			transform.Rotate(Vector3.up * rotationSpeed);
 		}
 	}
+
+	public int GetLayerMask(string[] layerNames){
+		int layerMask = 0;
+		foreach(string layer in layerNames){
+			layerMask = layerMask | (1 << LayerMask.NameToLayer(layer)); //looks up name in layermask table
+		}
+		return layerMask;
+	}
+	public Ray GetRay(){
+		switch(direction){
+		case Direction.down:
+			return new Ray (pos, Vector3.down);
+		case Direction.up:
+			return new Ray (pos, Vector3.up);
+		case Direction.left:
+			return new Ray (pos, Vector3.left);
+		case Direction.right:
+			return new Ray (pos, Vector3.right);
+		default:
+			return new Ray();	
+		}
+	}
+
 }
 
-//		if(initiate == false){
-//			rb.velocity = new Vector3(0,0,10);
-//			initiate = true;
-//		}
-//		rb.velocity = rb.velocity + acceleration * (Time.deltaTime * 1/2);
-//		print(rb.velocity);
-//		transform.position = transform.position + (oldVelocity + GetComponent<Rigidbody>().velocity) * (Time.deltaTime * 1/2) / 2.0f;
-//		oldVelocity = rb.velocity;	

@@ -12,4 +12,9 @@ public class TileScript : MonoBehaviour {
 	void Update () {
 	
 	}
+	void OnTriggerExit(Collider other){
+		if(other.tag == "Player"){
+			TileManager.S.spawnTiles();
+		}
+	}
 }

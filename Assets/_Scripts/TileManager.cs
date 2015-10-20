@@ -6,15 +6,30 @@ public enum side{
 	right
 }
 public class TileManager : MonoBehaviour {
-
+	public static TileManager S;
 	public GameObject currentTile;
 	public GameObject[] TilePrefabs;
-//	private side curSide = side.top;
-	private int leftTotal, rightTotal, topTotal;
+	public side curSide = side.top;
 	// Use this for initialization
 	void Start () {
-		leftTotal = rightTotal = topTotal = 3;
-		spawnTiles();
+		S = this;
+		//spawn 2 right, 1 top, 2 left, 1 top, 2 right
+		curSide = side.top;
+		//2 right
+		currentTile =  (GameObject)Instantiate(TilePrefabs[2], currentTile.transform.GetChild(0).transform.GetChild(1).position, Quaternion.identity);
+		currentTile =  (GameObject)Instantiate(TilePrefabs[2], currentTile.transform.GetChild(0).transform.GetChild(1).position, Quaternion.identity);
+		//1 up
+		currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+		//2 left
+		currentTile =  (GameObject)Instantiate(TilePrefabs[0], currentTile.transform.GetChild(0).transform.GetChild(0).position, Quaternion.identity);
+		currentTile =  (GameObject)Instantiate(TilePrefabs[0], currentTile.transform.GetChild(0).transform.GetChild(0).position, Quaternion.identity);
+		//1 up
+		currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+		//2 right
+		currentTile =  (GameObject)Instantiate(TilePrefabs[2], currentTile.transform.GetChild(0).transform.GetChild(1).position, Quaternion.identity);
+		currentTile =  (GameObject)Instantiate(TilePrefabs[2], currentTile.transform.GetChild(0).transform.GetChild(1).position, Quaternion.identity);
+			
+
 	}
 	
 	// Update is called once per frame
@@ -22,6 +37,36 @@ public class TileManager : MonoBehaviour {
 	
 	}
 	public void spawnTiles(){
-//		currentTile =  (GameObject)Instantiate(rightTilePrefab, currentTile.transform.GetChild(0).transform.GetChild(1).position, Quaternion.identity);
+		if(curSide == side.left){
+			//build 2 to the left and 2 more up
+			currentTile =  (GameObject)Instantiate(TilePrefabs[0], currentTile.transform.GetChild(0).transform.GetChild(0).position, Quaternion.identity);
+			//1 up
+			currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+			//1 right
+			currentTile =  (GameObject)Instantiate(TilePrefabs[2], currentTile.transform.GetChild(0).transform.GetChild(1).position, Quaternion.identity);
+			//1 up
+			currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+			//1 left
+			currentTile =  (GameObject)Instantiate(TilePrefabs[0], currentTile.transform.GetChild(0).transform.GetChild(0).position, Quaternion.identity);
+			
+			}
+		if(curSide == side.top){
+			currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+			currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+			currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+			
+		}
+		if(curSide == side.right){
+			currentTile =  (GameObject)Instantiate(TilePrefabs[2], currentTile.transform.GetChild(0).transform.GetChild(1).position, Quaternion.identity);
+			//1 up
+			currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+			//1 left
+			currentTile =  (GameObject)Instantiate(TilePrefabs[0], currentTile.transform.GetChild(0).transform.GetChild(0).position, Quaternion.identity);
+			//1 up
+			currentTile =  (GameObject)Instantiate(TilePrefabs[1], currentTile.transform.GetChild(0).transform.GetChild(2).position, Quaternion.identity);
+			//1 right
+			currentTile =  (GameObject)Instantiate(TilePrefabs[0], currentTile.transform.GetChild(0).transform.GetChild(0).position, Quaternion.identity);
+			
+		}
 	}
 }
