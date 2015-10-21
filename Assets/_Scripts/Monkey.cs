@@ -4,7 +4,7 @@ using System;
 public class Monkey : MonoBehaviour {
 	public static Monkey S;
 	private Vector3 testPosition, mousePos, worldPos, diffVec = new Vector3(); 
-	public Vector3 pivot;
+	public Vector3 pivot, beforePause;
 	public Rigidbody rb;
 	public float tetherLength = 3;
 	private double dist, mouseXPos; 
@@ -17,8 +17,8 @@ public class Monkey : MonoBehaviour {
 	void Start () {
 		S = this;
 		rb = GetComponent<Rigidbody>();
-		rb.AddForce(Vector3.forward * 5);
-//		rb.AddForce(Vector3.up * 10);
+		rb.AddForce(Vector3.forward * 20);
+		rb.AddForce(Vector3.up * 10);
 		mouseXPos = 0;
 	}
 	void FixedUpdate(){

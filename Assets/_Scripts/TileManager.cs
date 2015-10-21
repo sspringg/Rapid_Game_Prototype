@@ -39,13 +39,13 @@ public class TileManager : MonoBehaviour
 		branchPos[0] = new Vector3(4,35,0);
 		branchPos[1] = new Vector3(4,25,0);
 		branchPos[2] = new Vector3(4,10,0);
-		branchPos[3] = new Vector3(-4,35,0);
-		branchPos[4] = new Vector3(-4,25,0);
-		branchPos[5] = new Vector3(-4,10,0);
+		branchPos[3] = new Vector3(-20,35,0);
+		branchPos[4] = new Vector3(-25,25,0);
+		branchPos[5] = new Vector3(-25,10,0);
 
 		UpdateTerrain();
-
-		GameObject obj = Instantiate(TreeTrunk, new Vector3(210, 0, 197), Quaternion.identity) as GameObject;
+		//initial tree for us to land on with player at(224,100,100) initial motion 20 forwar and 10 up
+		GameObject obj = Instantiate(TreeTrunk, new Vector3(210, 0, 203), Quaternion.identity) as GameObject;
 		obj.transform.Rotate(-90, 0, 0);
 		GameObject branch = Instantiate(TreeBranch, new Vector3((float)(obj.transform.position.x + 4), (float)(obj.transform.position.y + 30), (float)(obj.transform.position.z)), Quaternion.identity) as GameObject;
 		branch.transform.Rotate(0, 90, 0);

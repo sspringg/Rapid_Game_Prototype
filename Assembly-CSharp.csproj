@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\_Scripts\Banana.cs" />
      <Compile Include="Assets\_Scripts\Camera_Script.cs" />
+     <Compile Include="Assets\_Scripts\Energy.cs" />
      <Compile Include="Assets\_Scripts\Main.cs" />
      <Compile Include="Assets\_Scripts\Monkey.cs" />
      <Compile Include="Assets\_Scripts\TileManager.cs" />
