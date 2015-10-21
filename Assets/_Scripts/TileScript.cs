@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class TileScript : MonoBehaviour {
-
+	public GameObject left, top, right;
 	// Use this for initialization
 	void Start () {
 	
@@ -14,7 +14,6 @@ public class TileScript : MonoBehaviour {
 	}
 	void OnTriggerExit(Collider other){
 		if(other.tag == "Player"){
-			TileManager.S.spawnTiles();
 		}
 	}
 }

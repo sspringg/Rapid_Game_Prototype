@@ -12,4 +12,8 @@ public class treeBranch : MonoBehaviour {
 	void Update () {
 	
 	}
+	void OnTriggerEnter(Collider other) {
+		Monkey.S.pivot = new Vector3((float)Monkey.S.transform.position.x, (float)gameObject.transform.position.y, (float)gameObject.transform.position.z);
+		Monkey.S.swinging = true;
+	}
 }
