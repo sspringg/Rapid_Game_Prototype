@@ -13,7 +13,7 @@ public class Monkey : MonoBehaviour {
 	public bool swinging = false;
 	private Camera cameraloc;
 	public float realMagnitude;
-	public int distTravelled = 0;
+	public float distTravelled = 0;
 	RaycastHit hitInfo;
 	// Use this for initialization
 	void Start () {
@@ -23,10 +23,17 @@ public class Monkey : MonoBehaviour {
 		rb.AddForce(Vector3.up * 10);
 		mouseXPos = 0;
 	}
-	void FixedUpdate(){
+
+	// Update is called once per frame
+	void Update () {
 		if(!Main.S.inDialog){
+//			if(Input.GetKey("left"))		//for testing purposes
+//				transform.position += (Vector3.left*5);
+//			else if(Input.GetKey("right"))
+//				transform.position += (Vector3.right * 5);
+//			transform.position += Vector3.forward;
+			
 			if(swinging){
-				//			Time.timeScale = .1f;
 				rotationSpeed = 5;	
 				rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
 				testPosition = transform.position + rb.velocity * (Time.deltaTime);
@@ -38,45 +45,33 @@ public class Monkey : MonoBehaviour {
 					
 					float speed = rb.velocity.magnitude;
 					rb.velocity = (testPosition - transform.position) / (Time.deltaTime);
+					rb.velocity /= 8;
 					if(speed > rb.velocity.magnitude)
 						rb.velocity *= (speed / rb.velocity.magnitude);
 					transform.position = testPosition;
 				}
 			}
-		}
-	}
-	// Update is called once per frame
-	void Update () {
-		if(!Main.S.inDialog){
-	//		if(Input.GetKey("left"))		//for testing purposes
-	//			transform.position += (Vector3.left*5);
-	//		else if(Input.GetKey("right"))
-	//			transform.position += (Vector3.right * 5);
-	//		transform.position += Vector3.forward;
-	//		
 			//monkey Hit ground
-			if(transform.position.y < 3){
+			if(transform.position.y < 4){
 				Main.S.placeInDialog = 8;
 				Main.S.Play_Dialog();
 			}
-			else if (Input.GetMouseButtonUp(0) && swinging == true){		//user releases grab
-				print(rb.velocity);
+			if (Input.GetMouseButtonUp(0) && swinging == true){		//user releases grab
 				swinging = false;
 				mousePos = Input.mousePosition;
 				mouseXPos = mousePos.x / Screen.width;
-				mouseXPos = (mouseXPos - .5);
-//				rb.velocity *= realMagnitude;
-				print(rb.velocity);
+				mouseXPos = (mouseXPos - .5) * 1.25;
+				rb.velocity *= 2;
 			}
-			else{	//in air
+			else if(!swinging){	//in air
 				if(Input.GetKey(KeyCode.A) && rotationSpeed < 10)
 					rotationSpeed += .5f;
 				else if(Input.GetKey(KeyCode.S) && rotationSpeed > .5f)
 					rotationSpeed -= .5f;
-				distTravelled += (int)(rb.velocity.z * Time.deltaTime);
+				distTravelled += (rb.velocity.z * Time.deltaTime);
 				GameObject dialogBox = GameObject.Find("Score").transform.Find("Text").gameObject;
 				Text goText = dialogBox.GetComponent<Text>();
-				goText.text = Monkey.S.distTravelled.ToString();
+				goText.text = ((int)Monkey.S.distTravelled).ToString();
 				transform.Rotate(Vector3.up * rotationSpeed);
 				transform.position = new Vector3(transform.position.x + (float)mouseXPos, (float)transform.position.y, (float)transform.position.z);
 			}

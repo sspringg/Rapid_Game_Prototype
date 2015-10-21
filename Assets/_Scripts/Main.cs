@@ -76,7 +76,7 @@ public class Main : MonoBehaviour {
 				return "Use A and S keys to change speed of rotation while in the Air so you can grab with the hand";
 			case 6:
 				placeInDialog = 7;
-				return "Better get ready to start swinging";
+				return "Better get ready to start swinging because the forest is on fire so you need to move fast";
 			case 7:
 				placeInDialog = 8;
 				inDialog = false;
@@ -89,15 +89,18 @@ public class Main : MonoBehaviour {
 				Text goText = dialogBox.GetComponent<Text>();
 				goText.text = Monkey.S.distTravelled.ToString();
 				//end
+				Fire.S.gameObject.SetActive(true);
 				Energy.S.gameObject.SetActive(true);
 				return "EXIT";
 			case 8:
 				placeInDialog = 9;
 				Energy.S.gameObject.SetActive(false);
+				Fire.S.gameObject.SetActive(false);
+				
 				return "Slippery Fingers missing the branch?";
 			case 9:
 				placeInDialog = 10;
-				return "I know you can do better than 'score' next time" ;
+			return "I know you can do better than " + Monkey.S.distTravelled + " next time" ;
 			case 10:
 				placeInDialog = 20;
 				waitingOnChoice = true;
@@ -105,11 +108,20 @@ public class Main : MonoBehaviour {
 			case 11:
 				placeInDialog = 9;
 				Energy.S.gameObject.SetActive(false);
+				Fire.S.gameObject.SetActive(false);
+				
 				return "Owww! That's gonna hurt" ;
 			case 12:
 				placeInDialog = 9;
 				Energy.S.gameObject.SetActive(false);
+				Fire.S.gameObject.SetActive(false);
+				
 				return "Keep working hard and you'll learn how to use your energy" ;
+			case 13: 
+				placeInDialog = 9;
+				Energy.S.gameObject.SetActive(false);
+				Fire.S.gameObject.SetActive(false);
+				return "The fire got ya from behind.. Burned" ;
 			case 20:
 				placeInDialog = 9;
 				inDialog = false;

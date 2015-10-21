@@ -48,17 +48,24 @@
      <Compile Include="Assets\_Scripts\Banana.cs" />
      <Compile Include="Assets\_Scripts\Camera_Script.cs" />
      <Compile Include="Assets\_Scripts\Energy.cs" />
+     <Compile Include="Assets\_Scripts\Fire.cs" />
      <Compile Include="Assets\_Scripts\Main.cs" />
      <Compile Include="Assets\_Scripts\Monkey.cs" />
      <Compile Include="Assets\_Scripts\TileManager.cs" />
      <Compile Include="Assets\_Scripts\TileScript.cs" />
      <Compile Include="Assets\_Scripts\treeBranch.cs" />
      <Compile Include="Assets\_Scripts\treeTrunk.cs" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>/Applications/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

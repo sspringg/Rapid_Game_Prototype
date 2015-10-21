@@ -13,8 +13,12 @@ public class treeTrunk : MonoBehaviour {
 	
 	}
 	void OnTriggerEnter(Collider other) {
-		print("trunk");
-		Main.S.placeInDialog = 11;
-		Main.S.Play_Dialog();
+//		if(Monkey.S.transform.position.z > 300 && Monkey.S.transform.position.z < 310)
+//			return;
+		if(other.tag == "Player"){
+			print(Monkey.S.transform.position);
+			Main.S.placeInDialog = 11;
+			Main.S.Play_Dialog();
+		}
 	}
 }

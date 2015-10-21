@@ -13,6 +13,7 @@ public class TileManager : MonoBehaviour
 	public GameObject TreeTrunk;
 	public GameObject TreeBranch;
 	public GameObject Banana;
+	public static Queue<GameObject> treeQ = new Queue<GameObject>();
 	private int lastZgenerated, lastYRow = 1;
 	private Terrain[,] map = new Terrain[3,3], newTerrain;
 	private bool openning = true; 
@@ -97,6 +98,7 @@ public class TileManager : MonoBehaviour
 		}
 		//always want player in the middle so fix if she isnt
 			if(curTerrain != map[1,1]){
+				print("moving tiles");
 				newTerrain = new Terrain[3,3];
 				for (int x = 0; x < 3; x++)
 					for (int y = 0; y < 3; y++){			//(2,0) (1,0), (0,0) [
@@ -110,7 +112,6 @@ public class TileManager : MonoBehaviour
 							newY = 2;
 						else if (newY > 2)
 							newY = 0;
-						print(x + " " + y +" " + newX + "  " + newY);
 						newTerrain[newX, newY] = map[x,y];
 					}
 			for (int x = 0; x < 3; x++){
@@ -140,6 +141,12 @@ public class TileManager : MonoBehaviour
 				if(randVal < .5){
 					Vector3 pos = new Vector3(j,0,i);
 					GameObject obj = Instantiate(TreeTrunk, pos, Quaternion.identity) as GameObject;
+					treeQ.Enqueue(obj);
+					if(treeQ.Count > 250){
+						GameObject objToDestroy = treeQ.Peek();
+						Destroy(objToDestroy);
+						treeQ.Dequeue();
+					}
 					obj.transform.Rotate(-90, 0, 0);
 					obj.transform.parent = map[x,y].transform;
 					int branchRand = (int)UnityEngine.Random.Range(0,6);
@@ -197,7 +204,6 @@ public class TileManager : MonoBehaviour
 		branch.transform.localScale += new Vector3(.4f, .4f, 3f); 
 		branch.transform.parent = obj.transform;
 		if(UnityEngine.Random.Range(0,100) < 20){
-			print("banana");
 			Vector3 bananaVec =  new Vector3((float)(obj.transform.position.x + inVec.x + 10), (float)(obj.transform.position.y + inVec.y - 5), (float)(obj.transform.position.z));
 			GameObject banana = Instantiate(Banana, bananaVec, Quaternion.identity) as GameObject;
 			banana.transform.Rotate(270, 180, 180);
