@@ -5,7 +5,8 @@ public class Main : MonoBehaviour {
 	public static Main S;
 	// Use this for initialization
 	public bool inDialog;
-	private int placeInDialog = 0;
+	public int placeInDialog = 0;
+	public bool waitingOnChoice = false;
 	void Awake(){
 		S = this;
 	}
@@ -16,40 +17,39 @@ public class Main : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update (){
-		if(Input.GetKeyDown("space"))
-			print("bums");
-		print("inDialog: " + inDialog);
-		if(inDialog && Input.GetKey(KeyCode.A))
-			print("enter");
+		if(inDialog && Input.GetKeyDown(KeyCode.Space))
+			Play_Dialog();
+		else if(waitingOnChoice && Input.GetKeyDown(KeyCode.Alpha1))
+			Application.LoadLevel("Scene0");
+		else if(waitingOnChoice && Input.GetKeyDown(KeyCode.Alpha2))
+			Application.Quit();
 	}
 	public void ShowMessage(string message){
-		GameObject dialogBox = GameObject.Find("Canvas").transform.Find("Text").gameObject;
+		GameObject dialogBox = GameObject.Find("Dialog").transform.Find("Text").gameObject;
 		Text goText = dialogBox.GetComponent<Text>();
 		goText.text = message;
-		print(message);
-		inDialog = true;
 	}
 	// Update is called once per frame
 	public void HideDialogBox(){
 		Color noAlpha = GameObject.Find("DialogBackground").GetComponent<GUITexture>().color;
 		noAlpha.a = 0;
 		GameObject.Find("DialogBackground").GetComponent<GUITexture>().color = noAlpha;
-		
-		Monkey.S.rb.velocity = Monkey.S.beforePause;
-		
-		gameObject.SetActive(false);
+		Monkey.S.rb.AddForce(Vector3.forward * 20);
+		Monkey.S.rb.AddForce(Vector3.up * 10);
 		inDialog = false;
 	}
 	public void Play_Dialog(){
-		Monkey.S.beforePause = Monkey.S.rb.velocity;
+		inDialog = true;
 		Monkey.S.rb.velocity = new Vector3(0,0,0);
 		string sentance = CurrentText();
 		if(sentance == "EXIT"){
+			GameObject dialogBox = GameObject.Find("Dialog").transform.Find("Text").gameObject;
+			Text goText = dialogBox.GetComponent<Text>();
+			goText.text = "";
 			HideDialogBox();
 			return;
 		}
 		Color noAlpha = GameObject.Find("DialogBackground").GetComponent<GUITexture>().color;
-		print(noAlpha);
 		noAlpha.a = 255;
 		GameObject.Find("DialogBackground").GetComponent<GUITexture>().color = noAlpha;
 		ShowMessage(sentance);
@@ -70,10 +70,10 @@ public class Main : MonoBehaviour {
 				return "and lateral velocity is determined by position of mouse click";
 			case 4:
 				placeInDialog = 5;
-				return "You get tired out there swinging so make sure to collect the glowing bananas for energy";
+				return "You get tired swinging so make sure to collect the glowing bananas for energy";
 			case 5:
 				placeInDialog = 6;
-				return "Use A and S keys to change speed of rotation while in the Air to make sure you grab with hand";
+				return "Use A and S keys to change speed of rotation while in the Air so you can grab with the hand";
 			case 6:
 				placeInDialog = 7;
 				return "Better get ready to start swinging";
@@ -81,9 +81,42 @@ public class Main : MonoBehaviour {
 				placeInDialog = 8;
 				inDialog = false;
 				HideDialogBox();
+				//init scoring
+				Color noAlpha = GameObject.Find("ScoreBackground").GetComponent<GUITexture>().color;
+				noAlpha.a = 255;
+				GameObject.Find("ScoreBackground").GetComponent<GUITexture>().color = noAlpha;
+				GameObject dialogBox = GameObject.Find("Score").transform.Find("Text").gameObject;
+				Text goText = dialogBox.GetComponent<Text>();
+				goText.text = Monkey.S.distTravelled.ToString();
+				//end
+				Energy.S.gameObject.SetActive(true);
 				return "EXIT";
+			case 8:
+				placeInDialog = 9;
+				Energy.S.gameObject.SetActive(false);
+				return "Slippery Fingers missing the branch?";
+			case 9:
+				placeInDialog = 10;
+				return "I know you can do better than 'score' next time" ;
+			case 10:
+				placeInDialog = 20;
+				waitingOnChoice = true;
+				return "Press 1 to play again or 2 to quit";
+			case 11:
+				placeInDialog = 9;
+				Energy.S.gameObject.SetActive(false);
+				return "Owww! That's gonna hurt" ;
+			case 12:
+				placeInDialog = 9;
+				Energy.S.gameObject.SetActive(false);
+				return "Keep working hard and you'll learn how to use your energy" ;
+			case 20:
+				placeInDialog = 9;
+				inDialog = false;
+				HideDialogBox();
+				return "EXIT" ;
 			default:
-			return "";
+				return "";
 				
 				
 		

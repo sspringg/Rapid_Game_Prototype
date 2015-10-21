@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 public class Monkey : MonoBehaviour {
 	public static Monkey S;
 	private Vector3 testPosition, mousePos, worldPos, diffVec = new Vector3(); 
@@ -12,6 +13,7 @@ public class Monkey : MonoBehaviour {
 	public bool swinging = false;
 	private Camera cameraloc;
 	public float realMagnitude;
+	public int distTravelled = 0;
 	RaycastHit hitInfo;
 	// Use this for initialization
 	void Start () {
@@ -52,21 +54,29 @@ public class Monkey : MonoBehaviour {
 	//			transform.position += (Vector3.right * 5);
 	//		transform.position += Vector3.forward;
 	//		
-			if (Input.GetMouseButtonUp(0) && swinging == true){		//user releases grab
+			//monkey Hit ground
+			if(transform.position.y < 3){
+				Main.S.placeInDialog = 8;
+				Main.S.Play_Dialog();
+			}
+			else if (Input.GetMouseButtonUp(0) && swinging == true){		//user releases grab
 				print(rb.velocity);
 				swinging = false;
 				mousePos = Input.mousePosition;
 				mouseXPos = mousePos.x / Screen.width;
 				mouseXPos = (mouseXPos - .5);
-				rb.velocity *= realMagnitude;
+//				rb.velocity *= realMagnitude;
 				print(rb.velocity);
 			}
 			else{	//in air
 				if(Input.GetKey(KeyCode.A) && rotationSpeed < 10)
 					rotationSpeed += .5f;
-				else if(Input.GetKey(KeyCode.S) && rotationSpeed > .5f){
+				else if(Input.GetKey(KeyCode.S) && rotationSpeed > .5f)
 					rotationSpeed -= .5f;
-				}
+				distTravelled += (int)(rb.velocity.z * Time.deltaTime);
+				GameObject dialogBox = GameObject.Find("Score").transform.Find("Text").gameObject;
+				Text goText = dialogBox.GetComponent<Text>();
+				goText.text = Monkey.S.distTravelled.ToString();
 				transform.Rotate(Vector3.up * rotationSpeed);
 				transform.position = new Vector3(transform.position.x + (float)mouseXPos, (float)transform.position.y, (float)transform.position.z);
 			}

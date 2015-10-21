@@ -61,40 +61,14 @@ public class TileManager : MonoBehaviour
 	
 	void UpdateTerrain(){
 		//terrainData.size = total size in world unit of terrain
-		map[0,0].transform.position = new Vector3(
-			map[1,1].transform.position.x - map[1,1].terrainData.size.x,
-			map[1,1].transform.position.y,
-			map[1,1].transform.position.z + map[1,1].terrainData.size.z);
-		map[0,1].transform.position = new Vector3(
-			map[1,1].transform.position.x - map[1,1].terrainData.size.x,
-			map[1,1].transform.position.y,
-			map[1,1].transform.position.z);
-		map[0,2].transform.position = new Vector3(
-			map[1,1].transform.position.x - map[1,1].terrainData.size.x,
-			map[1,1].transform.position.y,
-			map[1,1].transform.position.z - map[1,1].terrainData.size.z);
-		
-		map[1,0].transform.position = new Vector3(
-			map[1,1].transform.position.x,
-			map[1,1].transform.position.y,
-			map[1,1].transform.position.z + map[1,1].terrainData.size.z);
-		map[1,2].transform.position = new Vector3(
-			map[1,1].transform.position.x,
-			map[1,1].transform.position.y,
-			map[1,1].transform.position.z - map[1,1].terrainData.size.z);
-		
-		map[2,0].transform.position = new Vector3(
-			map[1,1].transform.position.x + map[1,1].terrainData.size.x,
-			map[1,1].transform.position.y,
-			map[1,1].transform.position.z + map[1,1].terrainData.size.z);
-		map[2,1].transform.position = new Vector3(
-			map[1,1].transform.position.x + map[1,1].terrainData.size.x,
-			map[1,1].transform.position.y,
-			map[1,1].transform.position.z);
-		map[2,2].transform.position = new Vector3(
-			map[1,1].transform.position.x + map[1,1].terrainData.size.x,
-			map[1,1].transform.position.y,
-			map[1,1].transform.position.z - map[1,1].terrainData.size.z);
+		map[0,0].transform.position = new Vector3(map[1,1].transform.position.x - map[1,1].terrainData.size.x, map[1,1].transform.position.y, map[1,1].transform.position.z + map[1,1].terrainData.size.z);
+		map[0,1].transform.position = new Vector3(map[1,1].transform.position.x - map[1,1].terrainData.size.x, map[1,1].transform.position.y,map[1,1].transform.position.z);
+		map[0,2].transform.position = new Vector3(map[1,1].transform.position.x - map[1,1].terrainData.size.x,map[1,1].transform.position.y, map[1,1].transform.position.z - map[1,1].terrainData.size.z);
+		map[1,0].transform.position = new Vector3(map[1,1].transform.position.x, map[1,1].transform.position.y, map[1,1].transform.position.z + map[1,1].terrainData.size.z);
+		map[1,2].transform.position = new Vector3(map[1,1].transform.position.x, map[1,1].transform.position.y, map[1,1].transform.position.z - map[1,1].terrainData.size.z);
+		map[2,0].transform.position = new Vector3(map[1,1].transform.position.x + map[1,1].terrainData.size.x,map[1,1].transform.position.y, map[1,1].transform.position.z + map[1,1].terrainData.size.z);
+		map[2,1].transform.position = new Vector3(map[1,1].transform.position.x + map[1,1].terrainData.size.x, map[1,1].transform.position.y, map[1,1].transform.position.z);
+		map[2,2].transform.position = new Vector3(map[1,1].transform.position.x + map[1,1].terrainData.size.x, map[1,1].transform.position.y, map[1,1].transform.position.z - map[1,1].terrainData.size.z);
 	}
 	
 	void Update(){
@@ -222,10 +196,12 @@ public class TileManager : MonoBehaviour
 		branch.transform.Rotate(0, 90, 0);
 		branch.transform.localScale += new Vector3(.4f, .4f, 3f); 
 		branch.transform.parent = obj.transform;
-		if(UnityEngine.Random.Range(0,100) < 10){
-			Vector3 bananaVec =  new Vector3((float)(obj.transform.position.x + inVec.x + 10), (float)(obj.transform.position.y + inVec.y - 1), (float)(obj.transform.position.z));
+		if(UnityEngine.Random.Range(0,100) < 20){
+			print("banana");
+			Vector3 bananaVec =  new Vector3((float)(obj.transform.position.x + inVec.x + 10), (float)(obj.transform.position.y + inVec.y - 5), (float)(obj.transform.position.z));
 			GameObject banana = Instantiate(Banana, bananaVec, Quaternion.identity) as GameObject;
 			banana.transform.Rotate(270, 180, 180);
+			banana.transform.parent = branch.transform;
 		}
 		
 	}

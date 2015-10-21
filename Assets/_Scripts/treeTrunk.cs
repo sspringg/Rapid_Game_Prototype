@@ -12,4 +12,9 @@ public class treeTrunk : MonoBehaviour {
 	void Update () {
 	
 	}
+	void OnTriggerEnter(Collider other) {
+		print("trunk");
+		Main.S.placeInDialog = 11;
+		Main.S.Play_Dialog();
+	}
 }

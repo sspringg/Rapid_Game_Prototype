@@ -17,8 +17,8 @@ public class treeBranch : MonoBehaviour {
 		if(Input.GetMouseButton(0)){
 			Monkey.S.swinging = true;
 			Monkey.S.realMagnitude = Monkey.S.rb.velocity.magnitude;
-			float dist = (float)Math.Sqrt((Monkey.S.rb.velocity.x * Monkey.S.rb.velocity.x) + (Monkey.S.rb.velocity.y * Monkey.S.rb.velocity.y) + (Monkey.S.rb.velocity.z * Monkey.S.rb.velocity.z));
-			Monkey.S.rb.velocity = Monkey.S.rb.velocity / dist;
+//			float dist = (float)Math.Sqrt((Monkey.S.rb.velocity.x * Monkey.S.rb.velocity.x) + (Monkey.S.rb.velocity.y * Monkey.S.rb.velocity.y) + (Monkey.S.rb.velocity.z * Monkey.S.rb.velocity.z));
+			Monkey.S.rb.velocity = Monkey.S.rb.velocity;// / dist;
 		}
 	}
 }

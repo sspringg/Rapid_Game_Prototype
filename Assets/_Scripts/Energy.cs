@@ -18,13 +18,15 @@ public class Energy : MonoBehaviour {
 		StaminaTexture.SetPixel(0,0, Color.yellow);
 		StaminaTexture.Apply();
 		stamina = maxStamina = 20;
+		gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		stamina -= Time.deltaTime;
 		if(stamina <= 0){
-			//end game 
+			Main.S.placeInDialog = 12;
+			Main.S.Play_Dialog(); 
 		}
 	}
 	void OnGUI(){
